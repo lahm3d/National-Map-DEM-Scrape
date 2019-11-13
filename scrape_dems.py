@@ -162,27 +162,27 @@ def download_data(args):
 
 
 def main():
-    
+
     parser = argparse.ArgumentParser(
         prog='National Map DEM Scraping Script',
         description='Scrapes all DEM 3m tiles in National Map by an AOI and year'
         )
-    # user arg defined project path
+
+    # user defined args
     parser.add_argument('--path', '-p', help='Full pathname for project directory', required=True)
     parser.add_argument('--aoi', '-a', help='Full path AOI shapefile', required=True)
     parser.add_argument('--year', '-y', help='Provide year threshold. Should be YYYY format and it uses >= for filtering', required=True)
-    parser.add_argument('--scrape', '-s', help='True for scraping new xml files; otherwise False', nargs='?', const=0, type=int)
-    parser.add_argument('--download', '-d', help='True to download identified files; otherwise False', nargs='?', const=0, type=int)
-   
+    parser.add_argument('--scrape', '-s', help='True for scraping new xml files; otherwise False', action='store_true')
+    parser.add_argument('--download', '-d', help='True to download identified files; otherwise False', action='store_true')
+
     args = parser.parse_args()
 
-    # args 
+    # args
     work_dir = Path(args.path)
     aoi_shp = Path(args.aoi)
-    YEAR = args.year
+    YEAR = int(args.year)
     SKIP_SCRAPING = args.scrape
     SKIP_DOWNLOADS = args.download
-    print(work_dir, aoi_shp, YEAR, SKIP_SCRAPING, SKIP_DOWNLOADS)
 
     nmap_3m_url = 'https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1-9_arc-second/img/'
     NAD83 = {'init': 'epsg:4269'} #'+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs'
